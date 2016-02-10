@@ -1,0 +1,101 @@
+---
+title: "Course Project PML"
+output: html_document
+---
+
+This is the Course Project from Practical Machine Learning Course, in which the data about personal activity from <http://groupware.les.inf.puc-rio.br/har> should be classified a variable "classe".
+
+
+### Library
+
+The primary machine learning library which was used was "caret".
+```{r, eval = FALSE}
+
+library(caret);
+
+```
+
+
+### Download Data
+
+This function downloading the csv data if required.
+```{r, eval = FALSE}
+
+downloadData <- function() {
+  if (!file.exists("pml-data")) {
+    dir.create("pml-data");
+  }
+  
+  download.file("https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv", 
+                "./pml-data/pml-training.csv");
+  download.file("https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv", 
+                "./pml-data/pml-testing.csv");
+} 
+
+```
+
+
+### Cleanup Data
+
+This function count all NA-Values per column, remove all columns with NA-Values and remove the first seven columns with identity content.
+```{r, eval = FALSE}
+
+cleanupData <- function(dataTrain) {
+  
+  naValues  <- apply(dataTrain, 2, function(x) {sum(is.na(x))});
+  dataTrain <- dataTrain[,which(naValues == 0)];
+  
+  dataTrain <- dataTrain[,8:length(dataTrain)];
+  
+  return (dataTrain);
+}
+
+```
+
+
+### Train Model
+
+After load and cleanup the plm train data, split the data into train and crossvalidation set´s, and train a modelObj with the random forest algorithmen.
+```{r, eval = FALSE}
+
+#downloadData();
+plmTrain           <- read.csv("./pml-data/pml-training.csv", na.strings= c("NA",""," "));
+plmTrain           <- cleanupData(plmTrain);
+
+set.seed(3888);
+
+indexTrain         <- createDataPartition(y = plmTrain$classe, p = 0.7, list = FALSE)
+plmTrainTraining   <- plmTrain[indexTrain, ]
+plmTrainCrossval   <- plmTrain[-indexTrain, ]
+
+
+modelObj           <- train(classe ~., data=plmTrainTraining, method="rf");
+
+```
+
+
+### Validate Model
+
+Predict the values for the crossvalidation set and plot the confusionMatrix, with a accurancy of
+```{r, eval = FALSE}
+
+predictCrossvalResult  <- predict(modelObj, plmTrainCrossval)
+confusionMatrix(plmTrainCrossval$classe, predictCrossvalResult)
+
+```
+
+
+### Validate Model
+
+Load, cleanup and predict the values for the plm test set.
+```{r, eval = FALSE}
+
+plmTest <- read.csv("./pml-data/pml-testing.csv", na.strings= c("NA",""," "))
+plmTest <- cleanupData(plmTest);
+
+predictTestResult <- predict(modelObj, plmTest)
+predictTestResult
+
+```
+
+
