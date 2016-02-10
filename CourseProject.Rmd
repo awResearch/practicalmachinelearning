@@ -76,7 +76,7 @@ modelObj           <- train(classe ~., data=plmTrainTraining, method="rf");
 
 ### Validate Model
 
-Predict the values for the crossvalidation set and plot the confusionMatrix, with a accurancy of
+Predict the values for the crossvalidation set and plot the confusionMatrix.
 ```{r, eval = FALSE}
 
 predictCrossvalResult  <- predict(modelObj, plmTrainCrossval)
