@@ -37,14 +37,14 @@ plmTrainCrossval   <- plmTrain[-indexTrain, ]
 
 modelObj               <- train(classe ~., data=plmTrainTraining, method="rf");
 
-predictCrossvalResult  <- predict(modelObj, plmTrainCrossval)
-confusionMatrix(plmTrainCrossval$classe, predictCrossvalResult)
+predictCrossvalResult  <- predict(modelObj, plmTrainCrossval);
+confusionMatrix(plmTrainCrossval$classe, predictCrossvalResult);
 
 
-plmTest <- read.csv("./pml-data/pml-testing.csv", na.strings= c("NA",""," "))
+plmTest <- read.csv("./pml-data/pml-testing.csv", na.strings= c("NA",""," "));
 plmTest <- cleanupData(plmTest);
 
-predictTestResult <- predict(modelObj, plmTest)
+predictTestResult <- predict(modelObj, plmTest);
 predictTestResult
 
 

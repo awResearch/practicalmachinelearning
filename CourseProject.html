@@ -115,7 +115,7 @@ modelObj           &lt;- train(classe ~., data=plmTrainTraining, method=&quot;rf
 </div>
 <div id="validate-model" class="section level3">
 <h3>Validate Model</h3>
-<p>Predict the values for the crossvalidation set and plot the confusionMatrix.</p>
+<p>Predict the values for the crossvalidation set and plot the confusionMatrix. The out of sample error is 0,0054 and the accuracy 0,9946.</p>
 <pre class="r"><code>predictCrossvalResult  &lt;- predict(modelObj, plmTrainCrossval)
 confusionMatrix(plmTrainCrossval$classe, predictCrossvalResult)</code></pre>
 </div>

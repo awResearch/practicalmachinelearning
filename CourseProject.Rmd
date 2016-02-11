@@ -55,7 +55,7 @@ cleanupData <- function(dataTrain) {
 
 ### Train Model
 
-After load and cleanup the plm train data, split the data into train and crossvalidation set´s, and train a modelObj with the random forest algorithmen.
+After load and cleanup the plm train data, split the data into train and crossvalidation set´s, and train a modelObj with the random forest algorithmen. 
 ```{r, eval = FALSE}
 
 #downloadData();
@@ -76,7 +76,7 @@ modelObj           <- train(classe ~., data=plmTrainTraining, method="rf");
 
 ### Validate Model
 
-Predict the values for the crossvalidation set and plot the confusionMatrix.
+Predict the values for the crossvalidation set and plot the confusionMatrix. The out of sample error is 0,0054 and the accuracy 0,9946.
 ```{r, eval = FALSE}
 
 predictCrossvalResult  <- predict(modelObj, plmTrainCrossval)
